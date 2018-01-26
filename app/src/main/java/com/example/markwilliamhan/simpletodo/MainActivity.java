@@ -3,6 +3,7 @@ package com.example.markwilliamhan.simpletodo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -14,6 +15,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
 
+
+    /**
+     * onCreate method inflates activity_main, sets up listView using ArrayAdapter.
+     * Initially this screen will have two objects, First Item and Second Item
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +41,39 @@ public class MainActivity extends AppCompatActivity {
         // Adding the first two items to the ArrayList (These would be the first two TODOs that you add to the list)
         items.add("First Item");
         items.add("Second Item");
+
+        // Setup remove listener method call
+        setupListViewListener();
     }
 
+    /**
+     * This method sets up a listener which removes to-do from listview after being Long Clicked
+     */
+    private void setupListViewListener() {
+        lvItems.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                        // Remove the item within array at position
+                        items.remove(position);
+                        // Refresh the Adapter
+                        itemsAdapter.notifyDataSetChanged();
+                        // Return true consumes the long click event (marks it handled)
+                        return true;
+
+                    }
+                }
+        );
+    }
+
+
+    /**
+     * This method occurs when the button is clicked.  It adds the text in the edittextbox as a list item.
+     * It then erases the text in the edittext box.
+     * This is using a simple onclick attribute which was added to activity_main.xml
+     *
+     * @param v refers to the view that was clicked.
+     */
     public void onAddItem(View v) {
         // Finds the EditText in layout
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
