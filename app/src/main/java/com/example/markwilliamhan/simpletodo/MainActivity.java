@@ -8,6 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         items.add("First Item");
         items.add("Second Item");
 
+        readItems();
+
         // Setup remove listener method call
         setupListViewListener();
     }
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                         items.remove(position);
                         // Refresh the Adapter
                         itemsAdapter.notifyDataSetChanged();
+                        // Updates to-do.txt
+                        writeItems();
                         // Return true consumes the long click event (marks it handled)
                         return true;
 
@@ -87,6 +95,30 @@ public class MainActivity extends AppCompatActivity {
         // Erases what was previously in the EditText
         etNewItem.setText("");
 
+        // Updates to-do.txt
+        writeItems();
+
+    }
+
+
+    private void readItems() {
+        File filesDir = getFilesDir();
+        File todoFile = new File(filesDir, "todo.txt");
+        try {
+            items = new ArrayList<String>(FileUtils.readLines(todoFile));
+        } catch (IOException e) {
+            items = new ArrayList<String>();
+        }
+    }
+
+    private void writeItems() {
+        File filesDir = getFilesDir();
+        File todoFile = new File(filesDir, "todo.txt");
+        try {
+            FileUtils.writeLines(todoFile, items);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
