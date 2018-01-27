@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setupListViewListener();
     }
 
+
     /**
      * This method sets up a listener which removes to-do from listview after being Long Clicked
      */
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // method to open a file and read a newline-delimited list of items
     private void readItems() {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // method to save a file and write a newline-delimited list of items
     private void writeItems() {
         File filesDir = getFilesDir();
         File todoFile = new File(filesDir, "todo.txt");
