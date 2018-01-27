@@ -31,8 +31,12 @@ public class MainActivity extends AppCompatActivity {
         // Finds the ListView in activity_main.xml and links it to lvItems variable.
         lvItems = (ListView) findViewById(R.id.lvItems);
 
-        // Initializes items as ArrayList
-        items = new ArrayList<String>();
+/*        // Initializes items as ArrayList
+        items = new ArrayList<String>();*/
+
+
+        // read a newline-delimited list of items
+        readItems();
 
         // This Array Adapter is called itemsAdapter and uses simple_list_item_1 as a layout and takes in the list of items from the items ArrayList.
         // The context, THIS, refers to this activity, the MainActivity.
@@ -41,12 +45,10 @@ public class MainActivity extends AppCompatActivity {
         // Configures itemsAdapter to be used on the ListView lvItems
         lvItems.setAdapter(itemsAdapter);
 
-
-        // Adding the first two items to the ArrayList (These would be the first two TODOs that you add to the list)
+//      We can remove this part when using this and not testing
+/*        // Adding the first two items to the ArrayList (These would be the first two TODOs that you add to the list)
         items.add("First Item");
-        items.add("Second Item");
-
-        readItems();
+        items.add("Second Item");*/
 
         // Setup remove listener method call
         setupListViewListener();
@@ -56,18 +58,26 @@ public class MainActivity extends AppCompatActivity {
      * This method sets up a listener which removes to-do from listview after being Long Clicked
      */
     private void setupListViewListener() {
+
         lvItems.setOnItemLongClickListener(
+
                 new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+
                         // Remove the item within array at position
                         items.remove(position);
+
                         // Refresh the Adapter
                         itemsAdapter.notifyDataSetChanged();
+
                         // Updates to-do.txt
                         writeItems();
+
                         // Return true consumes the long click event (marks it handled)
                         return true;
+
 
                     }
                 }
